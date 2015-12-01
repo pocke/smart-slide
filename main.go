@@ -54,6 +54,7 @@ func (wj *WriteJacker) InjectScript(w http.ResponseWriter) {
 		}
 	}
 	w.Write(body)
+	w.WriteHeader(wj.status)
 }
 
 var _ http.ResponseWriter = &WriteJacker{}
