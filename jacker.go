@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -33,12 +34,12 @@ func (wj *WriteJacker) Write(b []byte) (int, error) {
 	return wj.buf.Write(b)
 }
 
-func (wj *WriteJacker) InjectScript(w http.ResponseWriter) {
+func (wj *WriteJacker) InjectScript(w http.ResponseWriter, script []byte) {
 	var body []byte
 	if !strings.Contains(wj.Header().Get("Content-Type"), "text/html") {
 		body = wj.buf.Bytes()
 	} else {
-		s := strings.Replace(wj.buf.String(), "</body>", "<script>alert('hoge')</script></body>", 1)
+		s := strings.Replace(wj.buf.String(), "</body>", fmt.Sprintf("<script>%s</script></body>", script), 1)
 		body = []byte(s)
 		wj.header.Set("Content-Length", strconv.Itoa(len(body)))
 	}

@@ -31,9 +31,14 @@ func Main() error {
 	c, err := NewController(ws.ch)
 	fmt.Println("port: ", c.listener.Addr().(*net.TCPAddr).Port)
 
+	script, err := ws.Script()
+	if err != nil {
+		return err
+	}
+
 	return http.Serve(l, hlog.Wrap(func(w http.ResponseWriter, r *http.Request) {
 		wj := NewWriteJacker()
 		http.ServeFile(wj, r, "."+r.URL.Path)
-		wj.InjectScript(w)
+		wj.InjectScript(w, script)
 	}))
 }
