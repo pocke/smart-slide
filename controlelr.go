@@ -33,7 +33,7 @@ func (c *Controller) Serve() error {
 	mux := denco.NewMux()
 	h, err := mux.Build([]denco.Handler{
 		mux.GET("/", c.IndexHandler),
-		mux.GET("/key", c.KeyHandler),
+		mux.POST("/key", c.KeyHandler),
 	})
 	if err != nil {
 		return err
