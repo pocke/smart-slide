@@ -29,7 +29,7 @@ func Main() error {
 		return err
 	}
 	c, err := NewController(ws.ch)
-	fmt.Println(c.listener.Addr().(*net.TCPAddr).Port)
+	fmt.Println("port: ", c.listener.Addr().(*net.TCPAddr).Port)
 
 	return http.Serve(l, hlog.Wrap(func(w http.ResponseWriter, r *http.Request) {
 		wj := NewWriteJacker()

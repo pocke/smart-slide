@@ -26,13 +26,26 @@ func (c *Controller) KeyHandler(w http.ResponseWriter, r *http.Request, _ denco.
 }
 
 func (c *Controller) IndexHandler(w http.ResponseWriter, r *http.Request, _ denco.Params) {
-	//TODO
+	b, err := Asset("assets/controller.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	w.Write(b)
+}
+
+func (c *Controller) JSHandler(w http.ResponseWriter, r *http.Request, _ denco.Params) {
+	b, err := Asset("assets/main.js")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	w.Write(b)
 }
 
 func (c *Controller) Serve() error {
 	mux := denco.NewMux()
 	h, err := mux.Build([]denco.Handler{
 		mux.GET("/", c.IndexHandler),
+		mux.GET("/main.js", c.JSHandler),
 		mux.POST("/key", c.KeyHandler),
 	})
 	if err != nil {
