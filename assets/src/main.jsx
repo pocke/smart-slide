@@ -9,10 +9,9 @@ const KeyButton = React.createClass({
   post: function () {
     req
     .post("/key")
-    .send(this.props.keyCode);
+    .send(this.props.keyCode).end();
   },
   render: function () {
-    console.log(this);
     return (
       <button onClick={this.post}>{this.props.keyCode}</button>
     );
