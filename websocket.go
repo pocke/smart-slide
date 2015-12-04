@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net"
 	"net/http"
 
@@ -36,8 +37,22 @@ func NewWSServer() (*WSServer, error) {
 }
 
 func (s *WSServer) handler(ws *websocket.Conn) {
-	for msg := range s.ch {
-		websocket.JSON.Send(ws, msg)
+	close := func() <-chan error {
+		ch := make(chan error)
+		go func() {
+			_, err := ioutil.ReadAll(ws)
+			ch <- err
+		}()
+		return ch
+	}()
+
+	for {
+		select {
+		case msg := <-s.ch:
+			websocket.JSON.Send(ws, msg)
+		case <-close:
+			return
+		}
 	}
 }
 
