@@ -29,7 +29,7 @@ func Main() error {
 		return err
 	}
 	c, err := NewController(ws.ch)
-	fmt.Println("port: ", c.listener.Addr().(*net.TCPAddr).Port)
+	fmt.Printf("http://127.0.0.1:%d\n", c.listener.Addr().(*net.TCPAddr).Port)
 
 	script, err := ws.Script()
 	if err != nil {

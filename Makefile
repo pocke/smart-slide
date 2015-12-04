@@ -8,3 +8,6 @@ all:
 depends:
 	go get -u github.com/jteeuwen/go-bindata/...
 	npm i
+
+install:
+	go install
