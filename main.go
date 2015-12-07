@@ -29,7 +29,8 @@ func Main() error {
 		return err
 	}
 	c, err := NewController(ws.ch)
-	fmt.Printf("http://127.0.0.1:%d\n", c.listener.Addr().(*net.TCPAddr).Port)
+	url = fmt.Sprintf("http://127.0.0.1:%d\n", c.listener.Addr().(*net.TCPAddr).Port)
+	open.Run(url)
 
 	script, err := ws.Script()
 	if err != nil {
