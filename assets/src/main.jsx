@@ -10,7 +10,14 @@ const KeyButton = React.createClass({
   post: function () {
     req
     .post("/key")
-    .send(this.props.keyCode).end();
+    .send(this.props.keyCode).end((err, res) => {
+      if (!res) {
+        alert("Server is dead");
+      }
+      if (!res.ok) {
+        alert("error!", res.text);
+      }
+    });
   },
   render: function () {
     const style = {
